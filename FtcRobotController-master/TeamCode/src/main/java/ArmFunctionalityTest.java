@@ -20,53 +20,30 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp(name = "MotorsTestOp")
-public class MotorsTestOp extends LinearOpMode
+@TeleOp(name = "Arm Functionality Test 10/03/24")
+public class ArmFunctionalityTest extends LinearOpMode
 {
     //these variables correspond to servos and motors. They are displayed in order of distance to Control Hub.
-    private DcMotor WheelMotorLeftFront;
-    private DcMotor WheelMotorLeftBack;
     private DcMotor WheelMotorRightFront;
-    private DcMotor WheelMotorRightBack;
+    private float speedMultipler = 0.4f;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
         //this block maps the variables to their corresponding motors/servos. 
-        WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
         WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
-        WheelMotorLeftBack = hardwareMap.dcMotor.get("WheelMotorLeftBack");
-        WheelMotorRightBack = hardwareMap.dcMotor.get("WheelMotorRightBack");
-        float speedMultipler = 0.4f;
         waitForStart();
 
         //called continuously while OpMode is active
         while(opModeIsActive()) {
-            if(gamepad1.dpad_up) {
-                WheelMotorLeftFront.setPower(-1 * speedMultipler);
+            if (gamepad1.dpad_right) {
                 WheelMotorRightFront.setPower(1 * speedMultipler);
-                WheelMotorLeftBack.setPower(-1 * speedMultipler);
-                WheelMotorRightBack.setPower(1 * speedMultipler);
-            } else if(gamepad1.dpad_down) {
-                WheelMotorLeftFront.setPower(1 * speedMultipler);
-                WheelMotorRightFront.setPower(-1 * speedMultipler);
-                WheelMotorLeftBack.setPower(1 * speedMultipler);
-                WheelMotorRightBack.setPower(-1 * speedMultipler);
-            } else if(gamepad1.dpad_right) {
-                WheelMotorLeftFront.setPower(-1 * speedMultipler);
-                WheelMotorRightFront.setPower(-1 * speedMultipler);
-                WheelMotorLeftBack.setPower(-1 * speedMultipler);
-                WheelMotorRightBack.setPower(-1 * speedMultipler);
             }
             else if(gamepad1.dpad_left) {
-                WheelMotorLeftFront.setPower(1 * speedMultipler);
-                WheelMotorRightFront.setPower(1 * speedMultipler);
-                WheelMotorLeftBack.setPower(1 * speedMultipler);
-                WheelMotorRightBack.setPower(1 * speedMultipler);
-            } else {
-                WheelMotorLeftFront.setPower(0);
+                WheelMotorRightFront.setPower(-1 * speedMultipler);
+            }
+            else {
                 WheelMotorRightFront.setPower(0);
-                WheelMotorLeftBack.setPower(0);
-                WheelMotorRightBack.setPower(0);
             }
 
 
