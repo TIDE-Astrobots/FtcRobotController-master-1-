@@ -31,8 +31,9 @@ public class MotorsTestOp extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
+        float AnshoulConstant = 0f;
 
-        //this block maps the variables to their corresponding motors/servos.
+        //this block maps the variables to their corresponding motors/servos. 
         WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
         WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
         WheelMotorLeftBack = hardwareMap.dcMotor.get("WheelMotorLeftBack");
