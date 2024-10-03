@@ -34,6 +34,7 @@ public class MotorsTestOp extends LinearOpMode
         float AnshoulConstant = 0f;
 
         float AnshoulBonstant = 10f;
+        float AnshoulAonstant = 5f;
 
         //this block maps the variables to their corresponding motors/servos. 
         WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
