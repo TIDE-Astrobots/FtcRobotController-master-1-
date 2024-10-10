@@ -99,7 +99,7 @@ public class SensorColor extends LinearOpMode {
       // On the way out, *guarantee* that the background is reasonable. It doesn't actually start off
       // as pure white, but it's too much work to dig out what actually was used, and this is good
       // enough to at least make the screen reasonable again.
-      // Set the panel back to the default color
+      // Set the panel back to   default color
       relativeLayout.post(new Runnable() {
         public void run() {
           relativeLayout.setBackgroundColor(Color.WHITE);
