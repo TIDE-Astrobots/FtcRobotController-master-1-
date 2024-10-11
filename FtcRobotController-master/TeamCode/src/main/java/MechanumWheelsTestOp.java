@@ -10,6 +10,7 @@ Changelog:
 
 import android.text.method.Touch;
 
+import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
 import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -18,6 +19,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import HelpfulFunctions.TouchSensorFunctions;
 
@@ -100,7 +103,6 @@ public class MechanumWheelsTestOp extends LinearOpMode {
             telemetry.addData("Current state: ", digitalTouch.isPressed());
 
             telemetry.update();
-
             WheelMotorFrontLeft.setPower(WheelMotorFrontLeftPower);
             WheelMotorBackLeft.setPower(WheelMotorBackLeftPower);
             WheelMotorFrontRight.setPower(WheelMotorFrontRightPower);
