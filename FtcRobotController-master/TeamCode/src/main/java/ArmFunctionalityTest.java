@@ -20,6 +20,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+
 @TeleOp(name = "Arm Functionality Test 10/03/24")
 public class ArmFunctionalityTest extends LinearOpMode
 {
