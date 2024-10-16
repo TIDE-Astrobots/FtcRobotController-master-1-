@@ -22,7 +22,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import HelpfulFunctions.TouchSensorFunctions;
-import HelpfulFunctions.ColorSensorFunctions;
 
 @TeleOp(name="Color Test Op (10/03/24)")
 public class ColorTestOp extends LinearOpMode {
@@ -30,13 +29,24 @@ public class ColorTestOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        colorSensor = ColorSensorFunctions.initializeTouchSensor(hardwareMap, "colorSensor");
+        colorSensor = hardwareMap.colorSensor.get("colorSensor");
         waitForStart();
 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            ColorSensorFunctions.addColorSensorTelemetry(telemetry, colorSensor, true, true, true);
+            telemetry.addData("Colors: ", colorSensor.argb());
+            telemetry.addData("Red: ", colorSensor.red());
+            telemetry.addData("Blue: ", colorSensor.blue());
+            telemetry.addData("Green: ", colorSensor.green());
+            telemetry.addData("Alpha: ", colorSensor.alpha());
+            if(gamepad1.dpad_up) {
+                colorSensor.enableLed(true);
+            }
+            else if(gamepad1.dpad_down) {
+                colorSensor.enableLed(false);
+
+            }
             telemetry.update();
 
         }
