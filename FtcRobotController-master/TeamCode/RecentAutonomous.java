@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp(name = "Tournament Op Mode 10/17/24")
-public class TournamentOpMode extends LinearOpMode
+public class RecentAutonomous extends LinearOpMode
 {
     //these variables correspond to servos and motors. They are displayed in order of distance to Control Hub.
     private DcMotor WheelMotorLeftFront;

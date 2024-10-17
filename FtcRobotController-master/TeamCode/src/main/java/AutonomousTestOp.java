@@ -63,6 +63,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  */
 
 @Autonomous(name="Johnny + Mateo's Test Auto", group="Test")
+@Disabled
 public class AutonomousTestOp extends LinearOpMode {
 
     /* Declare OpMode members. */

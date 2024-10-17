@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.text.method.Touch;
 
 import com.qualcomm.hardware.rev.RevTouchSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -21,10 +22,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import HelpfulFunctions.TouchSensorFunctions;
 import HelpfulFunctions.ColorSensorFunctions;
 
 @TeleOp(name="Color Test Op (10/03/24)")
+@Disabled
 public class ColorTestOp extends LinearOpMode {
     ColorSensor colorSensor;
 
