@@ -136,6 +136,8 @@ public class RecentAutonomous extends LinearOpMode {
     Net Zone Postions:
         Blue: A7
         Red: G1
+        TETSTSTTETSTTETSAIYDOAUID OQW
+
      */
 
 }
