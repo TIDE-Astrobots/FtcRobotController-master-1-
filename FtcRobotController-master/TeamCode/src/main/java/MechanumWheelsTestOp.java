@@ -22,15 +22,12 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import HelpfulFunctions.TouchSensorFunctions;
 
 @TeleOp(name="MechanumTest")
 public class MechanumWheelsTestOp extends LinearOpMode {
-    RevTouchSensor digitalTouch;  // Digital channel Object
 
     @Override
     public void runOpMode() throws InterruptedException {
-        digitalTouch = TouchSensorFunctions.initializeTouchSensor(hardwareMap, "touchSensor");
         //digitalTouch = hardwareMap.get(RevTouchSensor.class, "touchSensor");
 
         // Declare our motors
@@ -95,13 +92,6 @@ public class MechanumWheelsTestOp extends LinearOpMode {
                 WheelMotorFrontLeftPower = 1;
                 WheelMotorFrontRightPower = 1;
             }
-            if (digitalTouch.isPressed() == false) {
-                telemetry.addData("Button", "PRESSED");
-            } else {
-                telemetry.addData("Button", "NOT PRESSED");
-            }
-            telemetry.addData("Current state: ", digitalTouch.isPressed());
-
             telemetry.update();
             WheelMotorFrontLeft.setPower(WheelMotorFrontLeftPower);
             WheelMotorBackLeft.setPower(WheelMotorBackLeftPower);

@@ -18,6 +18,9 @@ public class RecentAutonomous extends LinearOpMode
     private DcMotor chainRight;
     private DcMotor extendoLeft;
     private DcMotor extendoRight;
+    private DcMotor[] WheelMotors;
+    private float ticksPerRevolution;
+    private float wheelCircumference;
     //endregion
 
     @Override
@@ -28,6 +31,11 @@ public class RecentAutonomous extends LinearOpMode
         WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
         WheelMotorLeftBack = hardwareMap.dcMotor.get("WheelMotorLeftBack");
         WheelMotorRightBack = hardwareMap.dcMotor.get("WheelMotorRightBack");
+        WheelMotors = new DcMotor[4];
+        WheelMotors[0] = WheelMotorLeftFront;
+        WheelMotors[1] = WheelMotorRightFront;
+        WheelMotors[2] = WheelMotorLeftBack;
+        WheelMotors[3] = WheelMotorRightBack;
         chainLeft = hardwareMap.dcMotor.get("chainLeft");
         chainRight = hardwareMap.dcMotor.get("chainRight");
         chainRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -39,61 +47,30 @@ public class RecentAutonomous extends LinearOpMode
         extendoRight.setDirection(DcMotorSimple.Direction.REVERSE);
         extendoLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extendoRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //endregion
 
         float speedMultipler = 0.4f;
+        ticksPerRevolution = 537.7f;
+        wheelCircumference = 3.780f;
         waitForStart();
 
         //called continuously while OpMode is active
         while(opModeIsActive()) {
-            
+            /*
+            Measurements:
+            Circumference = 3.780"
+            float ticksPerRevolution = ((((1+(46/17))) * (1+(46/11))) * 28);
+            ticksPerRevolution = 537.7
+             */
+        }
+    }
 
-//            if(gamepad2.dpad_up) {
-//                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainLeft.setPower(1);
-//                chainRight.setPower(1);
-//            }
-//            else if (gamepad2.dpad_down) {
-//                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainLeft.setPower(-1);
-//                chainRight.setPower(-1);
-//            }
-//            else if (gamepad2.a) {
-//                chainLeft.setTargetPosition(chainLeft.getCurrentPosition());
-//                chainRight.setTargetPosition(chainLeft.getCurrentPosition());
-//                chainLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                chainLeft.setPower(1);
-//                chainRight.setPower(1);
-//
-//            }
-//            else {
-//                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainLeft.setPower(0);
-//                chainRight.setPower(0);
-//            }
-//
-//            if(gamepad1.dpad_right) {
-//                extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                extendoRight.setPower(1);
-//                extendoLeft.setPower(1);
-//            }
-//            else if(gamepad1.dpad_left) {
-//                extendoLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//                extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                extendoLeft.setPower(-1);
-//                extendoRight.setPower(-1);
-//            }
-//            else {
-//                extendoLeft.setTargetPosition(extendoLeft.getCurrentPosition());
-//                extendoRight.setTargetPosition(extendoRight.getCurrentPosition());
-//                extendoLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                extendoRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            }
+    public void moveDistanceInInches(DcMotor[] motors, float distance) {
+        for(DcMotor motor : motors) {
+            //
+            motor.setTargetPosition(Math.round(ticksPerRevolution * wheelCircumference * distancec));
+            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 
