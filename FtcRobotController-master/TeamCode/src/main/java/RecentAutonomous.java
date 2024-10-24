@@ -55,7 +55,6 @@ public class RecentAutonomous extends LinearOpMode {
         waitForStart();
 
         //called continuously while OpMode is active
-<<<<<<< Updated upstream
         while(opModeIsActive()) {
             /*
             Measurements:
@@ -65,52 +64,49 @@ public class RecentAutonomous extends LinearOpMode {
              */
         }
     }
-=======
-        while (opModeIsActive()) {
 
->>>>>>> Stashed changes
 
     public void moveDistanceInInches(DcMotor[] motors, float distance) {
-        for(DcMotor motor : motors) {
-            //
-            motor.setTargetPosition(Math.round(ticksPerRevolution * wheelCircumference * distancec));
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            for(DcMotor motor : motors) {
+                //
+                motor.setTargetPosition(Math.round(ticksPerRevolution * wheelCircumference * distance));
+                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
         }
-    }
 
-    public void moveRobotInDirection(String direction, float speedMultipler) {
-        if (direction == "forward") {
-            WheelMotorLeftFront.setPower(-1 * speedMultipler);
-            WheelMotorRightFront.setPower(1 * speedMultipler);
-            WheelMotorLeftBack.setPower(-1 * speedMultipler);
-            WheelMotorRightBack.setPower(1 * speedMultipler);
-        } else if (direction == "backward") {
-            WheelMotorLeftFront.setPower(1 * speedMultipler);
-            WheelMotorRightFront.setPower(-1 * speedMultipler);
-            WheelMotorLeftBack.setPower(1 * speedMultipler);
-            WheelMotorRightBack.setPower(-1 * speedMultipler);
-        } else if (direction == "left") {
-            WheelMotorLeftFront.setPower(1 * speedMultipler);
-            WheelMotorRightFront.setPower(1 * speedMultipler);
-            WheelMotorLeftBack.setPower(1 * speedMultipler);
-            WheelMotorRightBack.setPower(1 * speedMultipler);
-        } else if (direction == "right") {
-            WheelMotorLeftFront.setPower(-1 * speedMultipler);
-            WheelMotorRightFront.setPower(-1 * speedMultipler);
-            WheelMotorLeftBack.setPower(-1 * speedMultipler);
-            WheelMotorRightBack.setPower(-1 * speedMultipler);
+        public void moveRobotInDirection(String direction, float speedMultipler) {
+            if (direction == "forward") {
+                WheelMotorLeftFront.setPower(-1 * speedMultipler);
+                WheelMotorRightFront.setPower(1 * speedMultipler);
+                WheelMotorLeftBack.setPower(-1 * speedMultipler);
+                WheelMotorRightBack.setPower(1 * speedMultipler);
+            } else if (direction == "backward") {
+                WheelMotorLeftFront.setPower(1 * speedMultipler);
+                WheelMotorRightFront.setPower(-1 * speedMultipler);
+                WheelMotorLeftBack.setPower(1 * speedMultipler);
+                WheelMotorRightBack.setPower(-1 * speedMultipler);
+            } else if (direction == "left") {
+                WheelMotorLeftFront.setPower(1 * speedMultipler);
+                WheelMotorRightFront.setPower(1 * speedMultipler);
+                WheelMotorLeftBack.setPower(1 * speedMultipler);
+                WheelMotorRightBack.setPower(1 * speedMultipler);
+            } else if (direction == "right") {
+                WheelMotorLeftFront.setPower(-1 * speedMultipler);
+                WheelMotorRightFront.setPower(-1 * speedMultipler);
+                WheelMotorLeftBack.setPower(-1 * speedMultipler);
+                WheelMotorRightBack.setPower(-1 * speedMultipler);
+            }
         }
-    }
 
-    public void stopRobot() {
-        WheelMotorLeftFront.setPower(0);
-        WheelMotorRightFront.setPower(0);
-        WheelMotorLeftBack.setPower(0);
-        WheelMotorRightBack.setPower(0);
-    }
+        public void stopRobot() {
+            WheelMotorLeftFront.setPower(0);
+            WheelMotorRightFront.setPower(0);
+            WheelMotorLeftBack.setPower(0);
+            WheelMotorRightBack.setPower(0);
+        }
 
-    //y axis : numbers 1 - 6
-    //x axis: letters a - f
+        //y axis : numbers 1 - 6
+        //x axis: letters a - f
 
     /*
     BOARD:
@@ -140,5 +136,4 @@ public class RecentAutonomous extends LinearOpMode {
 
      */
 
-}
-
+    }
