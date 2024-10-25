@@ -4,6 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Autonomous(name = "Tournament Op Mode 10/17/24")
 public class RecentAutonomous extends LinearOpMode {
     //region: Creating Variables
@@ -107,6 +110,61 @@ public class RecentAutonomous extends LinearOpMode {
 
         //y axis : numbers 1 - 6
         //x axis: letters a - f
+
+    public class Graph {
+        public List<Vertex> graph = new ArrayList<Vertex>();
+        public void addVertex(String vertexName, List<Float> vertexCoordinates, List<Vertex> vertexConnections, List<Float>connectionWeights) {
+            /*
+            vertexName: the name of this vertex
+            vertexCoordinates: A list with two values; [x position, y position]
+            vertexConnections: A list of lists used to create edges. The inner list contains:
+                                [destinationName, weight]. The source is this vertex, so it is not needed here.
+             */
+            Vertex vertex = new Vertex(vertexName, vertexCoordinates);
+            //Create list of edges
+            List<Edge> connectedEdges = new ArrayList<Edge>();
+
+            //Take information from the parameters and add them to the connectedEdges
+            for(int index = 0; index < vertexConnections.size(); index++) {
+                //Pull information from parameters
+                Vertex connectedVertex = vertexConnections.get(index);
+                float weight = connectionWeights.get(index);
+                //Put information from parameters into a list
+                List<Vertex> connections = new ArrayList<Vertex>();
+                connections.add(vertex);
+                connections.add(connectedVertex);
+                //Create new edge and add it to the list
+                connectedEdges.add(new Edge(weight, connections));
+            }
+
+            //Add new vertex to graph
+            graph.add(vertex);
+        }
+    }
+    public class Vertex {
+        public String vertexName;
+        public List<Float> coordinates;
+        public List<Edge> connectedEdges;
+
+        public Vertex(String vertexName, List<Float> vertexCoordinates) {
+            this.vertexName = vertexName;
+            this.coordinates = vertexCoordinates;
+        }
+
+        public void addEdge(Edge edge) {
+            this.connectedEdges.add(edge);
+        }
+
+    }
+    public class Edge {
+        public float weight;
+        public List<Vertex> connectedVertices;
+
+        public Edge(float weight, List<Vertex> connectedVertices) {
+            this.weight = weight;
+            this.connectedVertices = connectedVertices;
+        }
+    }
 
     /*
     BOARD:
