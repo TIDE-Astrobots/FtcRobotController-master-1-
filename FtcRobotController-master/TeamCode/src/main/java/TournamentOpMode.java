@@ -56,6 +56,7 @@ public class TournamentOpMode extends LinearOpMode
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
         float speedMultipler = 0.4f;
+        boolean shouldSetPosition = true;
         waitForStart();
 
         //called continuously while OpMode is active
@@ -88,6 +89,8 @@ public class TournamentOpMode extends LinearOpMode
             double WheelMotorFrontRightPower = (rotY - rotX - rx) / denominator;
             double WheelMotorBackRightPower = (rotY + rotX - rx) / denominator;
 
+
+
             if(gamepad2.dpad_up) {
                 chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -116,23 +119,29 @@ public class TournamentOpMode extends LinearOpMode
                 chainRight.setPower(0);
             }
 
-            if(gamepad1.dpad_right) {
+            if(gamepad2.dpad_right) {
                 extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setPower(1);
                 extendoLeft.setPower(1);
+                shouldSetPosition = true;
             }
-            else if(gamepad1.dpad_left) {
-                extendoLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            else if(gamepad2.dpad_left) {
+                extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoLeft.setPower(-1);
                 extendoRight.setPower(-1);
+                shouldSetPosition = true;
             }
             else {
-                extendoLeft.setTargetPosition(extendoLeft.getCurrentPosition());
-                extendoRight.setTargetPosition(extendoRight.getCurrentPosition());
-                extendoLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                extendoRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                if(shouldSetPosition) {
+                    extendoLeft.setTargetPosition(extendoLeft.getCurrentPosition());
+                    extendoRight.setTargetPosition(extendoRight.getCurrentPosition());
+                    extendoLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    extendoRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    shouldSetPosition = false;
+                }
+
             }
 
             WheelMotorLeftFront.setPower(WheelMotorFrontLeftPower);
