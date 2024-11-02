@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "Tournament Op Mode 10/28/24")
+@TeleOp(name = "FieldCentricTournamentOpMode")
 public class TournamentOpMode extends LinearOpMode
 {
     //these variables correspond to servos and motors. They are displayed in order of distance to Control Hub.
@@ -35,10 +35,8 @@ public class TournamentOpMode extends LinearOpMode
         chainLeft = hardwareMap.dcMotor.get("chainLeft");
         chainRight = hardwareMap.dcMotor.get("chainRight");
         chainRight.setDirection(DcMotorSimple.Direction.REVERSE);
-//        chainLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         chainLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         chainRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        chainRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         extendoLeft = hardwareMap.dcMotor.get("extendoLeft");
         extendoRight = hardwareMap.dcMotor.get("extendoRight");
@@ -106,14 +104,14 @@ public class TournamentOpMode extends LinearOpMode
 
 
             if(gamepad2.dpad_up) {
-                chainLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 chainLeft.setPower(1);
                 chainRight.setPower(1);
             }
             else if (gamepad2.dpad_down) {
-                chainLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 chainLeft.setPower(0);
                 chainRight.setPower(0);
             }
@@ -124,8 +122,8 @@ public class TournamentOpMode extends LinearOpMode
                 chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
             else {
-                chainLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 chainLeft.setPower(0);
                 chainRight.setPower(0);
             }
