@@ -24,7 +24,10 @@ public class RobotCentricTournamentOpMode extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
-
+        WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
+        WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
+        WheelMotorLeftBack = hardwareMap.dcMotor.get("WheelMotorLeftBack");
+        WheelMotorRightBack = hardwareMap.dcMotor.get("WheelMotorRightBack");
 
         WheelMotorRightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         WheelMotorRightBack.setDirection(DcMotorSimple.Direction.REVERSE);
