@@ -49,6 +49,7 @@ public class RobotCentricTournamentOpMode extends LinearOpMode
 
         boolean hangingMode = false;
 
+        waitForStart();
         while(opModeIsActive()) {
             double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
