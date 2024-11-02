@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name = "Tournament Op Mode 10/17/24")
+@Autonomous(name = "Literally Just Move Right Slowly")
 public class RecentAutonomous extends LinearOpMode {
     //region: Creating Variables
 
@@ -65,16 +65,19 @@ public class RecentAutonomous extends LinearOpMode {
             float ticksPerRevolution = ((((1+(46/17))) * (1+(46/11))) * 28);
             ticksPerRevolution = 537.7
              */
+            moveRobotInDirection("right", 0.25f);
         }
     }
 
 
     public void moveDistanceInInches(DcMotor[] motors, float distance) {
-            for(DcMotor motor : motors) {
-                //
-                motor.setTargetPosition(Math.round(ticksPerRevolution * wheelCircumference * distance));
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
+//            for(DcMotor motor : motors) {
+//                //
+////                motor.setTargetPosition(Math.round(ticksPerRevolution * wheelCircumference * distance));
+////                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//
+//            }
         }
 
         public void moveRobotInDirection(String direction, float speedMultipler) {
