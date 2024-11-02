@@ -63,8 +63,6 @@ public class TournamentOpMode extends LinearOpMode
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
-        float speedMultipler = 0.4f;
-        boolean shouldSetPosition = true;
         waitForStart();
 
         //called continuously while OpMode is active
@@ -150,18 +148,15 @@ public class TournamentOpMode extends LinearOpMode
                 extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setPower(1);
                 extendoLeft.setPower(1);
-                shouldSetPosition = true;
             }
             else if(gamepad2.dpad_left) {
                 extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoLeft.setPower(-1);
                 extendoRight.setPower(-1);
-                shouldSetPosition = true;
             }
             else if(gamepad2.y) {
                 hangingMode = true;
-
             }
             else if(hangingMode) {
                 extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
