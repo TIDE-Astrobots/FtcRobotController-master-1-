@@ -24,6 +24,7 @@ public class TournamentOpMode extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
+        boolean hangingMode = false;
         //this block maps the variables to their corresponding motors/servos. 
         WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
         WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
@@ -157,6 +158,16 @@ public class TournamentOpMode extends LinearOpMode
                 extendoLeft.setPower(-1);
                 extendoRight.setPower(-1);
                 shouldSetPosition = true;
+            }
+            else if(gamepad2.y) {
+                hangingMode = true;
+
+            }
+            else if(hangingMode) {
+                extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                extendoLeft.setPower(-1);
+                extendoRight.setPower(-1);
             }
             else {
                 extendoLeft.setPower(0);
