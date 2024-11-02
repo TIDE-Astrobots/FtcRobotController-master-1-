@@ -1,48 +1,29 @@
-/*
-Manual MechanumWheelsTestOp; Created 9/19/24; Last Updated 9/19/24
-This op mode is to test the Mecanum Wheels which Anshoul says are superior!
 
-Changelog:
--
- */
-
-//package org.firstinspires.ftc.teamcode;
-
-import android.text.method.Touch;
-
-import com.qualcomm.hardware.kauailabs.NavxMicroNavigationSensor;
-import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.IntegratingGyroscope;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name="MechanumTest")
+@TeleOp
 public class MechanumWheelsTestOp extends LinearOpMode {
-
     @Override
     public void runOpMode() throws InterruptedException {
-        //digitalTouch = hardwareMap.get(RevTouchSensor.class, "touchSensor");
-
         // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor WheelMotorFrontLeft = hardwareMap.dcMotor.get("WheelMotorLeftFront");
-        DcMotor WheelMotorBackLeft = hardwareMap.dcMotor.get("WheelMotorLeftBack");
-        DcMotor WheelMotorFrontRight = hardwareMap.dcMotor.get("WheelMotorRightFront");
-        DcMotor WheelMotorBackRight = hardwareMap.dcMotor.get("WheelMotorRightBack");
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("WheelMotorLeftFront");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("WheelMotorLeftBack");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("WheelMotorRightFront");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("WheelMotorRightBack");
 
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
-        WheelMotorFrontRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        WheelMotorBackRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Retrieve the IMU from the hardware map
         IMU imu = hardwareMap.get(IMU.class, "imu");
@@ -58,8 +39,8 @@ public class MechanumWheelsTestOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
-            double x = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
-            double y = gamepad1.left_stick_x;
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x;
             double rx = gamepad1.right_stick_x;
 
             // This button choice was made so that it is hard to hit on accident,
@@ -81,23 +62,15 @@ public class MechanumWheelsTestOp extends LinearOpMode {
             // This ensures all the powers maintain the same ratio,
             // but only if at least one is out of the range [-1, 1]
             double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double WheelMotorFrontLeftPower = (rotY + rotX + rx) / denominator;
-            double WheelMotorBackLeftPower = (rotY - rotX + rx) / denominator;
-            double WheelMotorFrontRightPower = (rotY - rotX - rx) / denominator;
-            double WheelMotorBackRightPower = (rotY + rotX - rx) / denominator;
+            double frontLeftPower = (rotY + rotX + rx) / denominator;
+            double backLeftPower = (rotY - rotX + rx) / denominator;
+            double frontRightPower = (rotY - rotX - rx) / denominator;
+            double backRightPower = (rotY + rotX - rx) / denominator;
 
-            if(gamepad1.dpad_up) {
-                WheelMotorBackLeftPower = 1;
-                WheelMotorBackRightPower = 1;
-                WheelMotorFrontLeftPower = 1;
-                WheelMotorFrontRightPower = 1;
-            }
-            telemetry.update();
-            WheelMotorFrontLeft.setPower(WheelMotorFrontLeftPower);
-            WheelMotorBackLeft.setPower(WheelMotorBackLeftPower);
-            WheelMotorFrontRight.setPower(WheelMotorFrontRightPower);
-            WheelMotorBackRight.setPower(WheelMotorBackRightPower);
-
+            frontLeftMotor.setPower(frontLeftPower);
+            backLeftMotor.setPower(backLeftPower);
+            frontRightMotor.setPower(frontRightPower);
+            backRightMotor.setPower(backRightPower);
         }
     }
 }
