@@ -67,10 +67,10 @@ public class RobotCentricTournamentOpMode extends LinearOpMode
             double backRightPower = (y + x - rx) / denominator;
 
 
-            WheelMotorLeftFront.setPower(frontLeftPower);
-            WheelMotorLeftBack.setPower(backLeftPower);
-            WheelMotorRightFront.setPower(frontRightPower);
-            WheelMotorRightBack.setPower(backRightPower);
+            WheelMotorLeftFront.setPower(-frontLeftPower);
+            WheelMotorLeftBack.setPower(-backLeftPower);
+            WheelMotorRightFront.setPower(-frontRightPower);
+            WheelMotorRightBack.setPower(-backRightPower);
 
 
 
