@@ -112,16 +112,22 @@ public class TournamentOpMode extends LinearOpMode
                 chainRight.setPower(1);
             }
             else if (gamepad2.dpad_down) {
-                chainLeft.setTargetPosition(100);
-                chainRight.setTargetPosition(100);
-                chainLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                chainLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainLeft.setPower(0);
+                chainRight.setPower(0);
             }
             else if(gamepad2.a){
                 chainLeft.setTargetPosition(500);
                 chainRight.setTargetPosition(500);
                 chainLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+            else {
+                chainLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                chainLeft.setPower(0);
+                chainRight.setPower(0);
             }
 
             telemetry.addData("LeftPos: ", chainLeft.getCurrentPosition());
@@ -156,13 +162,18 @@ public class TournamentOpMode extends LinearOpMode
                 extendoRight.setPower(-1);
             }
             else if(gamepad2.y) {
-                hangingMode = true;
+                if(hangingMode) {
+                    hangingMode = false;
+                }
+                else {
+                    hangingMode = true;
+                }
             }
             else if(hangingMode) {
                 extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 extendoRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                extendoLeft.setPower(-1);
-                extendoRight.setPower(-1);
+                extendoLeft.setPower(1);
+                extendoRight.setPower(1);
             }
             else {
                 extendoLeft.setPower(0);
