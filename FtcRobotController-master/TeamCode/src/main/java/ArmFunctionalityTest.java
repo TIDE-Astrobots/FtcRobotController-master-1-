@@ -21,7 +21,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name = "Arm Functionality Test 10/03/24")
+@TeleOp(name = "Arm Functionality Test 10/28/24")
 public class ArmFunctionalityTest extends LinearOpMode
 {
     //these variables correspond to servos and motors. They are displayed in order of distance to Control Hub.

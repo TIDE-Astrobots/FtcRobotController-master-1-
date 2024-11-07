@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "FieldCentricTournamentOpMode")
-public class TournamentOpMode extends LinearOpMode
+@TeleOp(name = "RobotCentricTournamentOpMode")
+public class RobotCentricTournamentOpMode extends LinearOpMode
 {
     //these variables correspond to servos and motors. They are displayed in order of distance to Control Hub.
     private DcMotor WheelMotorLeftFront;
@@ -24,12 +24,13 @@ public class TournamentOpMode extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
-        boolean hangingMode = false;
-        //this block maps the variables to their corresponding motors/servos. 
         WheelMotorLeftFront = hardwareMap.dcMotor.get("WheelMotorLeftFront");
         WheelMotorRightFront = hardwareMap.dcMotor.get("WheelMotorRightFront");
         WheelMotorLeftBack = hardwareMap.dcMotor.get("WheelMotorLeftBack");
         WheelMotorRightBack = hardwareMap.dcMotor.get("WheelMotorRightBack");
+
+        WheelMotorRightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        WheelMotorRightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         chainLeft = hardwareMap.dcMotor.get("chainLeft");
@@ -46,60 +47,30 @@ public class TournamentOpMode extends LinearOpMode
 
         clawServo = hardwareMap.servo.get("clawServo");
 
-        // Reverse the right side motors. This may be wrong for your setup.
-        // If your robot moves backwards when commanded to go forwards,
-        // reverse the left side instead.
-        // See the note about this earlier on this page.
-        WheelMotorRightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        WheelMotorRightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        boolean hangingMode = false;
 
-        // Retrieve the IMU from the hardware map
-        IMU imu = hardwareMap.get(IMU.class, "imu");
-        // Adjust the orientation parameters to match your robot
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD));
-        // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
-        imu.initialize(parameters);
         waitForStart();
-
-        //called continuously while OpMode is active
         while(opModeIsActive()) {
-            double x = -gamepad1.left_stick_x; // Remember, Y stick value is reversed
-            double y = gamepad1.left_stick_y;
+            double y = -gamepad1.left_stick_y; // Remember, Y stick value is reversed
+            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
-
-            // This button choice was made so that it is hard to hit on accident,
-            // it can be freely changed based on preference.
-            // The equivalent button is start on Xbox-style controllers.
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
-
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            // Rotate the movement direction counter to the bot's rotation
-            double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-            double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
-
-            rotX = rotX * 1.1;  // Counteract imperfect strafing
-
             // Denominator is the largest motor power (absolute value) or 1
             // This ensures all the powers maintain the same ratio,
-            // but only if at least one is out of the range [-1, 1]
-            double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
-            double WheelMotorFrontLeftPower = (rotY + rotX + rx) / denominator;
-            double WheelMotorBackLeftPower = (rotY - rotX + rx) / denominator;
-            double WheelMotorFrontRightPower = (rotY - rotX - rx) / denominator;
-            double WheelMotorBackRightPower = (rotY + rotX - rx) / denominator;
+            // but only if at least one is out of the range [-
+            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             if(gamepad1.a) {
-                 denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1) * 2;
-                 WheelMotorFrontLeftPower = (rotY + rotX + rx) / denominator;
-                 WheelMotorBackLeftPower = (rotY - rotX + rx) / denominator;
-                 WheelMotorFrontRightPower = (rotY - rotX - rx) / denominator;
-                 WheelMotorBackRightPower = (rotY + rotX - rx) / denominator;
+                denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1) * 2;
             }
+            double frontLeftPower = (y + x + rx) / denominator;
+            double backLeftPower = (y - x + rx) / denominator;
+            double frontRightPower = (y - x - rx) / denominator;
+            double backRightPower = (y + x - rx) / denominator;
 
+
+            WheelMotorLeftFront.setPower(-frontLeftPower);
+            WheelMotorLeftBack.setPower(-backLeftPower);
+            WheelMotorRightFront.setPower(-frontRightPower);
+            WheelMotorRightBack.setPower(-backRightPower);
 
 
 
@@ -128,24 +99,10 @@ public class TournamentOpMode extends LinearOpMode
                 chainRight.setPower(0);
             }
 
+
             telemetry.addData("LeftPos: ", chainLeft.getCurrentPosition());
             telemetry.addData("RightPos: ", chainRight.getCurrentPosition());
             telemetry.update();
-//            else if (gamepad2.a) {
-//                chainLeft.setTargetPosition(chainLeft.getCurrentPosition());
-//                chainRight.setTargetPosition(chainLeft.getCurrentPosition());
-//                chainLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                chainLeft.setPower(1);
-//                chainRight.setPower(1);
-//
-//            }
-//            else {
-//                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//                chainLeft.setPower(0);
-//                chainRight.setPower(0);
-//            }
 
             if(gamepad2.dpad_right) {
                 extendoLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -176,14 +133,6 @@ public class TournamentOpMode extends LinearOpMode
             else {
                 extendoLeft.setPower(0);
                 extendoRight.setPower(0);
-//                if(shouldSetPosition) {
-//                    extendoLeft.setTargetPosition(extendoLeft.getCurrentPosition());
-//                    extendoRight.setTargetPosition(extendoRight.getCurrentPosition());
-//                    extendoLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    extendoRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//                    shouldSetPosition = false;
-//                }
-
             }
             if(gamepad2.right_bumper) {
                 clawServo.setPosition(1);
@@ -192,10 +141,6 @@ public class TournamentOpMode extends LinearOpMode
                 clawServo.setPosition(0);
             }
 
-            WheelMotorLeftFront.setPower(WheelMotorFrontLeftPower);
-            WheelMotorLeftBack.setPower(WheelMotorBackLeftPower);
-            WheelMotorRightFront.setPower(WheelMotorFrontRightPower);
-            WheelMotorRightBack.setPower(WheelMotorBackRightPower);
         }
     }
 }
