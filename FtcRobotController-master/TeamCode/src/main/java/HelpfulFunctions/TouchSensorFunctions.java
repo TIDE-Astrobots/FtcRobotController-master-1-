@@ -24,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
 abstract public class TouchSensorFunctions {
-    RevTouchSensor digitalTouch;  // Digital channel Object
+    //RevTouchSensor digitalTouch;  // Digital channel Object
     static public RevTouchSensor initializeTouchSensor(HardwareMap hardwareMap, String sensorName) {
         RevTouchSensor touchSensor = hardwareMap.get(RevTouchSensor.class, sensorName);
         return touchSensor;
