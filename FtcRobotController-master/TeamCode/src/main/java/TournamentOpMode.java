@@ -186,6 +186,14 @@ public class TournamentOpMode extends LinearOpMode
             //endregion
 
 
+
+            Integer num1 = 2;
+            Integer num2 = 3;
+            Integer num3 = num1 + num2;
+
+            Integer num4 = 200;
+            Integer num5 = 400;
+            Integer num6 = num4 + num5;
         }
     }
 }
