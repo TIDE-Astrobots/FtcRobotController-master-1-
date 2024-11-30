@@ -17,10 +17,9 @@ public class TournamentOpMode extends LinearOpMode
     private DcMotor WheelMotorLeftBack;
     private DcMotor WheelMotorRightBack;
     private DcMotor WheelMotorRightFront;
-    private DcMotor chainLeft;
-    private DcMotor chainRight;
     private DcMotor extendoLeft;
     private DcMotor extendoRight;
+    private DcMotor armPivot;
     private Servo clawServo;
     private boolean hangingMode;
     //endregion
@@ -41,13 +40,6 @@ public class TournamentOpMode extends LinearOpMode
         WheelMotorRightFront.setDirection(DcMotorSimple.Direction.REVERSE);
         WheelMotorRightBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        //This section initializes the motors attached to the chains and sets their settings
-        chainLeft = hardwareMap.dcMotor.get("chainLeft");
-        chainRight = hardwareMap.dcMotor.get("chainRight");
-        chainRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        chainLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        chainRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         //This section initializes the motors that control the extension arms and sets their settings
         extendoLeft = hardwareMap.dcMotor.get("extendoLeft");
         extendoRight = hardwareMap.dcMotor.get("extendoRight");
@@ -56,6 +48,8 @@ public class TournamentOpMode extends LinearOpMode
         extendoLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         extendoRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        armPivot = HelpfulFunctions.MotorFunctions.initializeMotor("armPivot", hardwareMap);
+        armPivot.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //This section initializes the claw servo
         clawServo = hardwareMap.servo.get("clawServo");
         //endregion
@@ -79,6 +73,13 @@ public class TournamentOpMode extends LinearOpMode
             // This will reset the robot's navigation
             if (gamepad1.options) {
                 imu.resetYaw();
+            }
+
+            if(gamepad1.dpad_up) {
+                WheelMotorLeftFront.setPower(1);
+                WheelMotorLeftBack.setPower(1);
+                WheelMotorRightFront.setPower(1);
+                WheelMotorRightBack.setPower(1);
             }
 
             //region: Move the wheels when the user moves the joystick
@@ -121,28 +122,18 @@ public class TournamentOpMode extends LinearOpMode
 
             //region: Chain controls
             if(gamepad2.dpad_up) {
-                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainLeft.setPower(1);
-                chainRight.setPower(1);
+                armPivot.setPower(1);
             }
             else if (gamepad2.dpad_down) {
-                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainLeft.setPower(0);
-                chainRight.setPower(0);
+                armPivot.setPower(-1);
             }
             else if(gamepad2.a){
-                chainLeft.setTargetPosition(500);
-                chainRight.setTargetPosition(500);
-                chainLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                chainRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armPivot.setTargetPosition(armPivot.getCurrentPosition());
+                armPivot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                armPivot.setPower(1);
             }
             else {
-                chainLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                chainLeft.setPower(0);
-                chainRight.setPower(0);
+                armPivot.setPower(0);
             }
             //endregion
 
@@ -184,8 +175,7 @@ public class TournamentOpMode extends LinearOpMode
                 clawServo.setPosition(0);
             }
             //endregion
-
-eeee;
+            
 
             Integer num1 = 2;
             Integer num2 = 3;
